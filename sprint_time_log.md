@@ -24,7 +24,13 @@ The expected minimum amount of time each Sprint for each category is as follows:
 | 9/22 | 5:30 | TP | Working on team project | 30 |   
 | 9/23 | 9:00 | TP | Team Project in class | 60 |   
 | 9/23 | 8:45 | IM | Prompting module assignment | 45 |   
-| 9/23 | 9:45 | IM | IM project init |   |   
+| 9/23 | 9:45 | IM | IM project init | 60 |   
+| 9/25 | 9:00 | TP | Team Project in class | 60 |   
+| 9/26 | 4:15 | TP | Fixing deployment | 70 |   
+| 9/28 | 9:00 | MTG | Class meeting | 60 |  
+| 9/28 | 11:30 | IM |   |   |   
+|   |   |   |   |   |   
+|   |   |   |   |   |   
 |   |   |   |   |   |   
 |   |   |   |   |   |   
 |   |   |   |   |   |   
