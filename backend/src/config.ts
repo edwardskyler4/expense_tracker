@@ -11,4 +11,3 @@ const schema = z.object({
 });
 
 export const config = schema.parse(process.env);
-

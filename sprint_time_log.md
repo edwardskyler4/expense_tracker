@@ -28,9 +28,9 @@ The expected minimum amount of time each Sprint for each category is as follows:
 | 9/25 | 9:00 | TP | Team Project in class | 60 |   
 | 9/26 | 4:15 | TP | Fixing deployment | 70 |   
 | 9/28 | 9:00 | MTG | Class meeting | 60 |  
-| 9/28 | 11:30 | IM |   |   |   
-|   |   |   |   |   |   
-|   |   |   |   |   |   
+| 9/28 | 11:30 | IM | Configuring Plaid | 30 |
+| 9/30 | 9:00 | TP | Class | 60 |   
+| 10/01 | 9:30 | IM | Learning about Plaid and fixing bugs |  |   
 |   |   |   |   |   |   
 |   |   |   |   |   |   
 |   |   |   |   |   |   

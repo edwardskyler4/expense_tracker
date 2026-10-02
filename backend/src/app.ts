@@ -13,7 +13,14 @@ app.use("/api/health", healthRouter);
 app.use("/api/plaid", plaidRouter);
 app.use("/api/transactions", transactionsRouter);
 app.use((_req, res) => res.status(404).json({ error: "Not found" }));
-app.use((error: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error(error);
-  res.status(500).json({ error: error.message || "Internal server error" });
-});
+app.use(
+  (
+    error: Error,
+    _req: express.Request,
+    res: express.Response,
+    _next: express.NextFunction
+  ) => {
+    console.error(error);
+    res.status(500).json({ error: error.message || "Internal server error" });
+  }
+);
