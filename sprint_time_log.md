@@ -43,8 +43,8 @@ The expected minimum amount of time each Sprint for each category is as follows:
 | | |  
 |-|-|  
 | **Category** | **Total Time (Hours:Minutes)** |   
-| IM - Individual Module |   |   
-| TP - Team Project |   |   
-| MTG - Class Meetings |   |   
+| IM - Individual Module | 2:15 |   
+| TP - Team Project | 4:40 |   
+| MTG - Class Meetings | 2:00 |   
 | **TOTAL** |   |   
    

@@ -111,6 +111,14 @@ button {
   margin-bottom: 24px
 }
 
+.month-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #64756f;
+  font-size: .85rem
+}
+
 h2 {
   margin: 0 0 4px;
   font-size: 1.3rem
@@ -170,7 +178,7 @@ td:last-child {
     display: block
   }
 
-  .card-heading select {
+  .month-filter {
     margin-top: 16px
   }
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Transaction = {
   id: number;
@@ -40,11 +40,25 @@ function loadPlaidScript() {
   });
 }
 
+function getMonthKey(date: string) {
+  return date.slice(0, 7);
+}
+
+function formatMonth(monthKey: string) {
+  const [year, month] = monthKey.split("-").map(Number);
+  return new Intl.DateTimeFormat(undefined, {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC"
+  }).format(new Date(Date.UTC(year, month - 1, 1)));
+}
+
 export function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [status, setStatus] = useState("Loading transactions…");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   const loadTransactions = useCallback(async () => {
     try {
@@ -59,6 +73,22 @@ export function App() {
   useEffect(() => {
     void loadTransactions();
   }, [loadTransactions]);
+
+  const months = useMemo(
+    () =>
+      Array.from(
+        new Set(transactions.map(transaction => getMonthKey(transaction.date)))
+      ).sort().reverse(),
+    [transactions]
+  );
+
+  useEffect(() => {
+    if (months.length === 0) {
+      setSelectedMonth("");
+    } else if (!months.includes(selectedMonth)) {
+      setSelectedMonth(months[0]);
+    }
+  }, [months, selectedMonth]);
 
   async function connectBank() {
     setBusy(true);
@@ -132,12 +162,18 @@ export function App() {
     }
   }
 
-  const spending = transactions.reduce(
+  const monthlyTransactions = selectedMonth
+    ? transactions.filter(
+        transaction => getMonthKey(transaction.date) === selectedMonth
+      )
+    : transactions;
+
+  const spending = monthlyTransactions.reduce(
     (sum, transaction) =>
       transaction.amount > 0 ? sum + transaction.amount : sum,
     0
   );
-  const earnings = transactions.reduce(
+  const earnings = monthlyTransactions.reduce(
     (sum, transaction) =>
       transaction.amount < 0 ? sum + Math.abs(transaction.amount) : sum,
     0
@@ -182,19 +218,38 @@ export function App() {
       </div>
       <div>
         <span>Transactions</span>
-        <strong>{transactions.length}</strong>
+        <strong>{monthlyTransactions.length}</strong>
       </div>
       <div>
         <span>Uncategorized</span>
-        <strong>{transactions.filter(t => !t.user_category).length}</strong>
+        <strong>{monthlyTransactions.filter(t => !t.user_category).length}</strong>
       </div>
     </section>
     <section className="card">
       <div className="card-heading">
         <div>
           <h2>Transactions</h2>
-          <p className="muted">Your synced activity will appear here.</p>
+          <p className="muted">
+            {selectedMonth
+              ? `Showing activity for ${formatMonth(selectedMonth)}.`
+              : "Your synced activity will appear here."}
+          </p>
         </div>
+        {months.length > 0 &&
+          <label className="month-filter">
+            <span>View month</span>
+            <select
+              aria-label="View transactions by month"
+              value={selectedMonth}
+              onChange={event => setSelectedMonth(event.target.value)}
+            >
+              {months.map(month =>
+                <option key={month} value={month}>
+                  {formatMonth(month)}
+                </option>
+              )}
+            </select>
+          </label>}
       </div>
       {status ?
         <p className="empty">{status}</p>
@@ -202,6 +257,8 @@ export function App() {
         <p className="empty">
           No transactions yet. Connect a Sandbox institution to get started.
         </p>
+      : monthlyTransactions.length === 0 ?
+        <p className="empty">No transactions for this month.</p>
       :
         <table>
           <thead>
@@ -213,7 +270,7 @@ export function App() {
             </tr>
           </thead>
           <tbody>
-            {transactions.map(t =>
+            {monthlyTransactions.map(t =>
               <tr key={t.id}>
                 <td>{t.date}</td>
                 <td>{t.name}</td>
